@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">rick_and_morty</string>
+
+    <string-array name="boarding_citation">
+        <item>Знаешь, родители — это просто дети, у которых есть дети.</item>
+        <item>Нельзя заставить людей любить тебя. Нужно просто подождать, пока им надоест тебя ненавидеть.</item>
+        <item>Знаете, ведь так мы и умираем. В одиночестве.</item>
+        <item>Хочешь слышать приятные слова? Встречайся с лингвистом!</item>
+        <item>Своими мозгами думайте, не будьте тупым стадом.</item>
+        <item>Свадьба — это похороны с тортом.</item>
+        <item>Ненавидь игру, а не игрока, сынок.</item>
+        <item>Да я роботов по приколу изобретаю!</item>
+        <item>Ты не представляешь угрозы, если тебя не трогать.</item>
+
+    </string-array>
+
+    <string name="boarding_btn">Waba laba dab dab</string>
+    <string name="boarding_hint">Enter your name</string>
+    <string name="boarding_title">I’m Pickle</string>
+
+    <string name="characters_screen_title">Characters</string>
+    <string name="characters_screen_search">Search</string>
+    <string name="characters_screen_race">Race: </string>
+    <string name="characters_screen_gender">Gender: </string>
+
+    <string name="bottom_nav_episodes">Episodes</string>
+    <string name="bottom_nav_characters">Characters</string>
+    <string name="bottom_nav_locations">Locations</string>
+</resources>
