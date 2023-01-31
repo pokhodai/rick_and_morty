@@ -6,11 +6,9 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -45,7 +43,7 @@ fun BottomNavigation(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination
 
-    when (navBackStackEntry?.destination?.route) {
+    when (currentRoute?.route) {
         Screen.SPLASH.route -> {
             bottomBarState.value = false
         }
@@ -106,5 +104,6 @@ fun BottomNavigation(navController: NavController) {
                     )
                 }
             }
-        })
+        }
+    )
 }
