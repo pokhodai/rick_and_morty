@@ -8,7 +8,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -29,10 +30,11 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.movie.rick_and_morty.ui.theme.asaRussFontFamily
 import com.movie.rick_and_morty.R
+import com.movie.rick_and_morty.data.responses.CharactersListResponse
 import com.movie.rick_and_morty.tools.enums.StatusCharacter
 import com.movie.rick_and_morty.ui.theme.LightGrey
+import com.movie.rick_and_morty.ui.theme.asaRussFontFamily
 
 @Composable
 fun CharactersScreen(
@@ -74,20 +76,20 @@ fun CharactersScreen(
             onRefresh = viewModel::onSwipeRefresh,
             modifier = Modifier.fillMaxSize()
         ) {
-            CharactersListGridView(viewModel)
+            CharactersListGridView(viewModel.characters)
         }
     }
 }
 
 @Composable
-private fun CharactersListGridView(viewModel: CharactersViewModel) {
+fun CharactersListGridView(characters: List<CharactersListResponse.Character>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp)
     ) {
-        items(viewModel.characters) { item ->
+        items(characters) { item ->
             CharactersCardView(
                 name = item.name,
                 status = item.status,

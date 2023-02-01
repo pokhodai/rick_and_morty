@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.movie.rick_and_morty.screens.SplashScreen
 import com.movie.rick_and_morty.screens.boarding.BoardingScreen
 import com.movie.rick_and_morty.screens.characters.CharactersScreen
@@ -33,7 +32,11 @@ fun NavigationHost(
         }
 
         composable(Screen.BOARDING.route) {
-            BoardingScreen(navController)
+            BoardingScreen {
+                navController.navigate(BottomNavItem.Episodes.route) {
+                    popUpTo(Screen.BOARDING.route) { inclusive = true }
+                }
+            }
         }
 
         composable(BottomNavItem.Characters.route) {

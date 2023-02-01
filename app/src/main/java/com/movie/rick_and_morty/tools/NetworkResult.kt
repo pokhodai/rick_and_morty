@@ -1,6 +1,5 @@
 package com.movie.rick_and_morty.tools
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,7 +14,7 @@ enum class ApiStatus {
 
 sealed class ApiResult<out T>(val status: ApiStatus, val data: T?, val message: String?) {
 
-    data class Success<out R>(val _data: R?) : ApiResult<R>(
+    data class Success<out R>(private val _data: R?) : ApiResult<R>(
         status = ApiStatus.SUCCESS,
         data = _data,
         message = null
@@ -34,17 +33,14 @@ sealed class ApiResult<out T>(val status: ApiStatus, val data: T?, val message: 
     )
 }
 
-fun <T> toResultFlow(call: suspend () -> Response<T>?): Flow<ApiResult<T>?> {
+inline fun <T> toResultFlow(crossinline call: suspend () -> Response<T>?): Flow<ApiResult<T>?> {
     return flow {
         emit(ApiResult.Loading())
 
         call()?.let { call ->
             try {
                 if (call.isSuccessful) {
-                    call.body()?.let {
-                        Log.d("TAGATGT ", "sdsd "+it)
-                        emit(ApiResult.Success(it))
-                    }
+                    call.body()?.let { emit(ApiResult.Success(it)) }
                 } else {
                     call.errorBody()?.let { responseBody ->
                         val error = responseBody.string()

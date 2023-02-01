@@ -26,4 +26,6 @@
     <string name="bottom_nav_episodes">Episodes</string>
     <string name="bottom_nav_characters">Characters</string>
     <string name="bottom_nav_locations">Locations</string>
+
+    <string name="episode_title">Episodes</string>
 </resources>

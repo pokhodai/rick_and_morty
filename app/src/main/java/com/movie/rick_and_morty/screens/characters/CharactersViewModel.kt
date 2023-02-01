@@ -1,6 +1,8 @@
 package com.movie.rick_and_morty.screens.characters
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.movie.rick_and_morty.data.responses.CharactersListResponse
@@ -8,7 +10,10 @@ import com.movie.rick_and_morty.repositories.CharactersRepository
 import com.movie.rick_and_morty.tools.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +27,10 @@ class CharactersViewModel @Inject constructor(
 
     var characters by mutableStateOf(listOf<CharactersListResponse.Character>())
         private set
+
+    init {
+        onSwipeRefresh()
+    }
 
     fun onSwipeRefresh() {
         viewModelScope.launch(Dispatchers.Default) {
@@ -37,22 +46,9 @@ class CharactersViewModel @Inject constructor(
                     is ApiResult.Error -> {
 
                     }
-                    else -> {}
+                    else -> Unit
                 }
             }
         }
-    }
-
-    init {
-        onSwipeRefresh()
-//        snapshotFlow { refresh }
-//            .mapLatest { isRefresh ->
-//                if (isRefresh) getCharacters()
-//            }
-//            .onEach {
-//                refresh = false
-//            }
-//            .launchIn(viewModelScope)
-
     }
 }

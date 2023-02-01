@@ -9,7 +9,9 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
@@ -27,12 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.movie.rick_and_morty.R
-import com.movie.rick_and_morty.navigation.BottomNavItem
-import com.movie.rick_and_morty.navigation.Screen
 import com.movie.rick_and_morty.ui.theme.Green
 import com.movie.rick_and_morty.ui.theme.LightGreen
 import com.movie.rick_and_morty.ui.theme.LightGreen2
@@ -40,15 +38,13 @@ import com.movie.rick_and_morty.ui.theme.asaRussFontFamily
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun BoardingScreen(navController: NavHostController) {
+fun BoardingScreen(onNavigateToMain: () -> Unit) {
     val viewModel = hiltViewModel<BoardingViewModel>()
     val systemUiController = rememberSystemUiController()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     fun navigateToMain() {
-        navController.navigate(BottomNavItem.Characters.route) {
-            popUpTo(Screen.BOARDING.route) { inclusive = true }
-        }
+        onNavigateToMain.invoke()
     }
 
     SideEffect {
@@ -146,7 +142,10 @@ fun BoardingScreen(navController: NavHostController) {
             )
         }
 
-        Box(modifier = Modifier.weight(1f))
+        EmptyView(
+            modifier = Modifier
+                .weight(1f)
+        )
 
         Box(
             modifier = Modifier
@@ -164,7 +163,10 @@ fun BoardingScreen(navController: NavHostController) {
             )
         }
 
-        Box(modifier = Modifier.weight(1f))
+        EmptyView(
+            modifier = Modifier
+                .weight(1f)
+        )
 
         Box(
             modifier = Modifier
@@ -189,7 +191,14 @@ fun BoardingScreen(navController: NavHostController) {
                 )
             }
         }
-
-        Box(modifier = Modifier.weight(1f))
+        EmptyView(
+            modifier = Modifier
+                .weight(1f)
+        )
     }
+}
+
+@Composable
+private fun EmptyView(modifier: Modifier) {
+    Box(modifier = modifier.defaultMinSize(minHeight = 20.dp))
 }
