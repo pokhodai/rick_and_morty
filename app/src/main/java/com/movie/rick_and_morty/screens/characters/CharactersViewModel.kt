@@ -15,6 +15,7 @@ class CharactersViewModel @Inject constructor(
     repository: CharactersRepository,
 ) : ViewModel() {
 
+
     var characters: Flow<PagingData<CharactersListResponse.Character>> =
         repository.getCharacters().cachedIn(viewModelScope)
 }

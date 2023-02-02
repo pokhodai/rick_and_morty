@@ -57,7 +57,8 @@ fun BottomNavigation(navController: NavController) {
                 )
                 bottomBarState.value = false
             }
-            Screen.CHARACTER.route + "/{Id}" -> {
+            Screen.CHARACTER.route + "/{Id}",
+            Screen.CHARACTERS_FAVORITE.route -> {
                 bottomBarState.value = false
                 systemUiController.setStatusBarColor(
                     color = LightGrey,

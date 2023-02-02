@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -35,7 +37,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.movie.rick_and_morty.R
+import com.movie.rick_and_morty.data.db.entity.CharactersEntity
 import com.movie.rick_and_morty.data.responses.CharactersListResponse
+import com.movie.rick_and_morty.screens.favorites.details.charactes.CharactersFavoritesViewModel
 import com.movie.rick_and_morty.tools.enums.StatusCharacter
 import com.movie.rick_and_morty.ui.theme.LightGrey
 
@@ -111,13 +115,22 @@ private fun CharactersListGridView(
 @Composable
 fun CharactersCardView(
     modifier: Modifier,
-    character: CharactersListResponse.Character?
+    character: CharactersListResponse.Character? = null,
+    characterEntity: CharactersEntity? = null,
+    viewModel: CharactersFavoritesViewModel? = null
 ) {
+    val name: String = character?.name ?: characterEntity?.name ?: ""
+    val gender: String = character?.gender ?: characterEntity?.gender ?: ""
+    val status: StatusCharacter =
+        character?.status ?: characterEntity?.status ?: StatusCharacter.UNKNOWN
+    val species: String = character?.species ?: characterEntity?.species ?: ""
+    val image: String = character?.image ?: characterEntity?.image ?: ""
+
     Card(modifier = modifier) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Box {
                 Image(
-                    painter = rememberAsyncImagePainter(model = character?.image ?: ""),
+                    painter = rememberAsyncImagePainter(image),
                     contentDescription = "Image.Card.Characters",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,13 +147,22 @@ fun CharactersCardView(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth(0.5f),
-                        text = character?.name ?: "",
+                        text = name,
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 15.sp,
                             fontFamily = FontFamily.SansSerif
                         )
                     )
+
+                    characterEntity?.let {
+                        IconButton(onClick = { viewModel?.onClickFavorite(it) }) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_favorite_active),
+                                contentDescription = "Image.Favorite"
+                            )
+                        }
+                    }
                 }
             }
 
@@ -157,7 +179,7 @@ fun CharactersCardView(
                             .size(10.dp)
                             .clip(CircleShape)
                             .background(
-                                when (character?.status ?: StatusCharacter.UNKNOWN) {
+                                when (status) {
                                     StatusCharacter.ALIVE -> Color.Green
                                     StatusCharacter.DEAD -> Color.Red
                                     StatusCharacter.UNKNOWN -> Color.Yellow
@@ -168,7 +190,7 @@ fun CharactersCardView(
 
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
-                    text = (character?.status ?: StatusCharacter.UNKNOWN).text,
+                    text = status.text,
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontFamily = FontFamily.SansSerif,
@@ -180,11 +202,11 @@ fun CharactersCardView(
 
             DescriptionCardCharacters(
                 stringResource(id = R.string.characters_screen_race),
-                character?.species ?: ""
+                species
             )
             DescriptionCardCharacters(
                 stringResource(id = R.string.characters_screen_gender),
-                character?.gender ?: "",
+                gender,
                 bottomPadding = 8.dp
             )
         }

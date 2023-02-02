@@ -1,7 +1,11 @@
 package com.movie.rick_and_morty.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,21 +15,24 @@ import com.movie.rick_and_morty.screens.characters.CharactersScreen
 import com.movie.rick_and_morty.screens.characters.character.CharacterScreen
 import com.movie.rick_and_morty.screens.episodes.EpisodesScreen
 import com.movie.rick_and_morty.screens.favorites.FavoritesScreen
+import com.movie.rick_and_morty.screens.favorites.details.charactes.CharactersFavoriteScreen
 
 enum class Screen(val route: String) {
     SPLASH("splashScreen"),
     BOARDING("boardingScreen"),
-    CHARACTER("characterScreen")
+    CHARACTER("characterScreen"),
+    CHARACTERS_FAVORITE("charactersFavoriteScreen")
 }
 
 @Composable
 fun NavigationHost(
-    modifier: Modifier = Modifier,
+    paddingValues: Dp,
     navController: NavHostController,
     startDestination: String = Screen.SPLASH.route
 ) {
+    val padding = remember { mutableStateOf(paddingValues) }
     NavHost(
-        modifier = modifier,
+        modifier = Modifier.padding(bottom = paddingValues),
         navController = navController,
         startDestination = startDestination
     ) {
@@ -49,12 +56,18 @@ fun NavigationHost(
             CharacterScreen(it.arguments?.getString("Id"))
         }
 
+        composable(Screen.CHARACTERS_FAVORITE.route) {
+            CharactersFavoriteScreen()
+        }
+
         composable(BottomNavItem.Episodes.route) {
             EpisodesScreen()
         }
 
         composable(BottomNavItem.Favorites.route) {
-            FavoritesScreen()
+            FavoritesScreen {
+                navController.navigate(Screen.CHARACTERS_FAVORITE.route)
+            }
         }
     }
 }

@@ -73,7 +73,11 @@ fun TopAppBarView(navController: NavController) {
                             TitleMainTopAppBar(R.string.favorites_title)
                         }
                         Screen.CHARACTER.route + "/{Id}" -> {
-                            TitleCharacterTopAppBar()
+                            TitleCharacterTopAppBar("Characters")
+                            isVisibleIcon.value = true
+                        }
+                        Screen.CHARACTERS_FAVORITE.route -> {
+                            TitleCharacterTopAppBar("Characters Favorite")
                             isVisibleIcon.value = true
                         }
                     }
@@ -99,9 +103,9 @@ private fun TitleMainTopAppBar(title: Int) {
 }
 
 @Composable
-private fun TitleCharacterTopAppBar() {
+private fun TitleCharacterTopAppBar(text: String) {
     Text(
-        text = "Character",
+        text = text,
         style = TextStyle(fontSize = 20.sp, fontFamily = FontFamily.Serif, color = Color.Black)
     )
 }

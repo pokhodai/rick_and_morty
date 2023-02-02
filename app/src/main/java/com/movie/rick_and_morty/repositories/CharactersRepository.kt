@@ -16,7 +16,7 @@ class CharactersRepository @Inject constructor(
 
     fun getCharacters() = Pager(
         config = PagingConfig(
-            pageSize = 15,
+            pageSize = 30,
         ),
         pagingSourceFactory = {
             CharacterPagingSource(apiService)

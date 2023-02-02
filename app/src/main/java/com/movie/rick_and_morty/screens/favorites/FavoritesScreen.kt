@@ -2,6 +2,7 @@ package com.movie.rick_and_morty.screens.favorites
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +23,7 @@ import com.movie.rick_and_morty.R
 import com.movie.rick_and_morty.ui.theme.LightGrey
 
 @Composable
-fun FavoritesScreen() {
+fun FavoritesScreen(onNavigateToCharactersFavoriteScreen: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -31,7 +32,9 @@ fun FavoritesScreen() {
         contentPadding = PaddingValues(vertical = 20.dp, horizontal = 40.dp)
     ) {
         item {
-            Box() {
+            Box(modifier = Modifier.clickable {
+                onNavigateToCharactersFavoriteScreen.invoke()
+            }) {
                 FavoriteCard(text = "Characters", id = R.drawable.ic_favorites_characters)
             }
         }
