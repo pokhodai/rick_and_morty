@@ -1,7 +1,7 @@
 package com.movie.rick_and_morty.di
 
 import com.google.gson.GsonBuilder
-import com.movie.rick_and_morty.data.ApiURL
+import com.movie.rick_and_morty.data.url.ApiURL
 import com.movie.rick_and_morty.di.annotations.HttpClient
 import com.movie.rick_and_morty.di.annotations.RetrofitClient
 import dagger.Module

@@ -6,6 +6,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -15,9 +16,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.movie.rick_and_morty.R
 import com.movie.rick_and_morty.ui.theme.Green
 import com.movie.rick_and_morty.ui.theme.LightGreen
+import com.movie.rick_and_morty.ui.theme.LightGrey
 import com.movie.rick_and_morty.ui.theme.LightGrey2
 
 sealed class BottomNavItem(val title: Int, val icon: Int, val route: String) {
@@ -27,8 +30,8 @@ sealed class BottomNavItem(val title: Int, val icon: Int, val route: String) {
     object Characters :
         BottomNavItem(R.string.bottom_nav_characters, R.drawable.ic_character, "charactersScreen")
 
-    object Locations :
-        BottomNavItem(R.string.bottom_nav_locations, R.drawable.ic_location, "locationsScreen")
+    object Favorites :
+        BottomNavItem(R.string.bottom_nav_favorites, R.drawable.ic_favorites, "favoritesScreen")
 }
 
 @Composable
@@ -36,28 +39,40 @@ fun BottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavItem.Episodes,
         BottomNavItem.Characters,
-        BottomNavItem.Locations
+        BottomNavItem.Favorites
     )
 
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination
 
-    when (currentRoute?.route) {
-        Screen.SPLASH.route -> {
-            bottomBarState.value = false
-        }
-        Screen.BOARDING.route -> {
-            bottomBarState.value = false
-        }
-        BottomNavItem.Characters.route -> {
-            bottomBarState.value = true
-        }
-        BottomNavItem.Episodes.route -> {
-            bottomBarState.value = true
-        }
-        BottomNavItem.Locations.route -> {
-            bottomBarState.value = true
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        when (currentRoute?.route) {
+            Screen.SPLASH.route, Screen.BOARDING.route -> {
+                systemUiController.setStatusBarColor(
+                    color = LightGreen,
+                    darkIcons = false
+                )
+                bottomBarState.value = false
+            }
+            Screen.CHARACTER.route + "/{Id}" -> {
+                bottomBarState.value = false
+                systemUiController.setStatusBarColor(
+                    color = LightGrey,
+                    darkIcons = true
+                )
+            }
+            BottomNavItem.Characters.route,
+            BottomNavItem.Episodes.route,
+            BottomNavItem.Favorites.route -> {
+                bottomBarState.value = true
+                systemUiController.setStatusBarColor(
+                    color = LightGrey,
+                    darkIcons = true
+                )
+            }
         }
     }
 

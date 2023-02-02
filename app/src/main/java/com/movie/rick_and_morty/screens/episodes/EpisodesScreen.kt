@@ -8,13 +8,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -22,46 +19,21 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.movie.rick_and_morty.R
 import com.movie.rick_and_morty.data.responses.EpisodesListResponse
 import com.movie.rick_and_morty.ui.theme.LightGrey
-import com.movie.rick_and_morty.ui.theme.asaRussFontFamily
 
 @Composable
 fun EpisodesScreen() {
-
-    val systemUiController = rememberSystemUiController()
     val viewModel = hiltViewModel<EpisodesViewModel>()
 
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isRefreshing)
-
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = LightGrey,
-            darkIcons = true
-        )
-    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(LightGrey)
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(id = R.string.episode_title),
-                style = TextStyle(
-                    fontSize = 32.sp,
-                    fontFamily = asaRussFontFamily
-                )
-            )
-        }
-
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = viewModel::onSwipeRefresh,

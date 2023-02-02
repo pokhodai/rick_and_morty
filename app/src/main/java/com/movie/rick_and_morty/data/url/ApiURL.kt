@@ -1,4 +1,4 @@
-package com.movie.rick_and_morty.data
+package com.movie.rick_and_morty.data.url
 
 object ApiURL {
     const val BASE_URL = "https://rickandmortyapi.com/api/"

@@ -11,4 +11,8 @@ class LocationsRepository @Inject constructor(
     fun getLocations() = toResultFlow {
         apiService.getLocations(1)
     }
+
+    fun getLocationById(id: Int) = toResultFlow {
+        apiService.getLocationById(id)
+    }
 }

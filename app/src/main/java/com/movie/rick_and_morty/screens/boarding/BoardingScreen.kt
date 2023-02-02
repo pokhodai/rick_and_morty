@@ -13,7 +13,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -29,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.movie.rick_and_morty.R
 import com.movie.rick_and_morty.ui.theme.Green
 import com.movie.rick_and_morty.ui.theme.LightGreen
@@ -40,18 +38,10 @@ import com.movie.rick_and_morty.ui.theme.asaRussFontFamily
 @Composable
 fun BoardingScreen(onNavigateToMain: () -> Unit) {
     val viewModel = hiltViewModel<BoardingViewModel>()
-    val systemUiController = rememberSystemUiController()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     fun navigateToMain() {
         onNavigateToMain.invoke()
-    }
-
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = LightGreen,
-            darkIcons = false
-        )
     }
 
     Column(

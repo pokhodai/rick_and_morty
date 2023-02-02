@@ -8,12 +8,14 @@ import androidx.navigation.compose.composable
 import com.movie.rick_and_morty.screens.SplashScreen
 import com.movie.rick_and_morty.screens.boarding.BoardingScreen
 import com.movie.rick_and_morty.screens.characters.CharactersScreen
+import com.movie.rick_and_morty.screens.characters.character.CharacterScreen
 import com.movie.rick_and_morty.screens.episodes.EpisodesScreen
-import com.movie.rick_and_morty.screens.locations.LocationsScreen
+import com.movie.rick_and_morty.screens.favorites.FavoritesScreen
 
 enum class Screen(val route: String) {
     SPLASH("splashScreen"),
-    BOARDING("boardingScreen")
+    BOARDING("boardingScreen"),
+    CHARACTER("characterScreen")
 }
 
 @Composable
@@ -40,15 +42,19 @@ fun NavigationHost(
         }
 
         composable(BottomNavItem.Characters.route) {
-            CharactersScreen(onNavigateToCharacterDetailsScreen = { navController.navigate(" ") })
+            CharactersScreen(onNavigateToCharacterScreen = { id -> navController.navigate("${Screen.CHARACTER.route}/${id}") })
+        }
+
+        composable("${Screen.CHARACTER.route}/{Id}") {
+            CharacterScreen(it.arguments?.getString("Id"))
         }
 
         composable(BottomNavItem.Episodes.route) {
             EpisodesScreen()
         }
 
-        composable(BottomNavItem.Locations.route) {
-            LocationsScreen()
+        composable(BottomNavItem.Favorites.route) {
+            FavoritesScreen()
         }
     }
 }

@@ -12,6 +12,5 @@ data class EpisodesListResponse(
         val name: String,
         val episode: String,
         val air_date: String,
-        val characters: List<CharactersListResponse.Character>
     )
 }

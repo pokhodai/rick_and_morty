@@ -50,4 +50,6 @@ class EpisodesViewModel @Inject constructor(
     init {
         onSwipeRefresh()
     }
+
+
 }
